@@ -8,7 +8,7 @@ let temp;
 //async function returns a promise
 async function getSongs(folder){
     curFolder = folder;
-    let a = await fetch(`http://127.0.0.1:5500/${folder}/`)
+    let a = await fetch(`/${folder}/`)
     let response = await a.text()
     //console.log(response)
     let div  = document.createElement('div')
@@ -90,7 +90,7 @@ function secondsToTime(seconds) {
 
 
 async function displayAlbums(){
-    let a = await fetch(`http://127.0.0.1:5500/songs/`);
+    let a = await fetch(`/songs/`);
     let response = await a.text()
     //console.log(response)
     let div  = document.createElement('div')
@@ -98,14 +98,15 @@ async function displayAlbums(){
     let allA = div.getElementsByTagName("a");
     //console.log(allA)
     
+    let album;
     let array = Array.from(allA);
         //console.log(e)
     for (let index = 0; index < array.length; index++) {
         const e = array[index];
         if(e.href.includes("songs/")){
             //console.log(e.href.split("songs/")[1]);
-            let album = e.href.split("songs/")[1];
-            let a = await fetch(`http://127.0.0.1:5500/songs/${album}/info.json`);
+            album = e.href.split("songs/")[1];
+            let a = await fetch(`/songs/${album}/info.json`);
             let response = await a.json()
             //console.log(response)
             cardContainer = document.querySelector(".cardContainer");
@@ -134,8 +135,36 @@ async function displayAlbums(){
             //console.log(item.currentTarget.dataset.folder)
             songs = await getSongs(`songs/${item.currentTarget.dataset.folder}`) 
             //console.log(songs) 
+            //album = item.currentTarget.dataset.folder
+            //console.log(album)
             playMusic(songs[0])  
         })
+    })
+
+    //eventlistener for previous
+    document.querySelector("#previous").addEventListener("click", ()=>{
+        console.log(songs)
+        //console.log("Clicked previous")
+        console.log(currSong.src.split(`/songs/${album}/`)[1])
+        
+        let index = songs.indexOf(currSong.src.split(`/songs/${album}/`)[1])
+        console.log(index)
+        if(index-1 >= 0){
+            playMusic(songs[index-1]);
+        }
+    })
+
+    //eventlistener for next
+    document.querySelector("#next").addEventListener("click", ()=>{
+        //console.log("Clicked next")
+        //console.log(currSong.src)
+        //console.log(`${album}`)
+        //console.log(currSong.src.split(`/songs/${album}/`)[1])
+        let index = songs.indexOf(currSong.src.split(`/songs/${album}/`)[1])
+        //console.log(index)
+        if(index+1 < songs.length){
+            playMusic(songs[index+1]);
+        }
     })
     
 }
@@ -192,26 +221,7 @@ async function main(){
 
     })
 
-    //eventlistener for previous
-    document.querySelector("#previous").addEventListener("click", ()=>{
-        //console.log("Clicked previous")
-        let index = songs.indexOf(currSong.src.split('/songs/no_copyright/')[1])
-        //console.log(index)
-        if(index-1 >= 0){
-            playMusic(songs[index-1]);
-        }
-    })
-
-    //eventlistener for next
-    document.querySelector("#next").addEventListener("click", ()=>{
-        //console.log("Clicked next")
-        //console.log(songs)
-        let index = songs.indexOf(currSong.src.split('/songs/no_copyright/')[1])
-        //console.log(index)
-        if(index+1 < songs.length){
-            playMusic(songs[index+1]);
-        }
-    })
+    
 
     //mute option
     let img = document.querySelector(".volbtn")
