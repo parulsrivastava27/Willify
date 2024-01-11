@@ -8,6 +8,7 @@ let temp;
 //async function returns a promise
 async function getSongs(folder){
     curFolder = folder;
+    console.log(folder);
     let a = await fetch(`/${folder}/`);
     let response = await a.text()
     //console.log(response)
