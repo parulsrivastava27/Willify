@@ -121,7 +121,7 @@ async function displayAlbums(){
                     </svg>
                 </div>
 
-                <img src="http://127.0.0.1:5500/songs/no_copyright/cover.jpg" alt="" />
+                <img src="${folder}/cover.jpg" alt="" />
                 <h2>${response.title}</h2>
                 <p>${response.description}</p>
 
