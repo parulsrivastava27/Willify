@@ -8,7 +8,7 @@ let temp;
 //async function returns a promise
 async function getSongs(folder){
     curFolder = folder;
-    console.log(folder);
+    //console.log(folder);
     let a = await fetch(`/${folder}/`);
     let response = await a.text()
     //console.log(response)
@@ -92,6 +92,7 @@ function secondsToTime(seconds) {
 
 async function displayAlbums(){
     let a = await fetch(`/songs/`);
+    console.log(a)
     let response = await a.text()
     //console.log(response)
     let div  = document.createElement('div')
@@ -111,6 +112,7 @@ async function displayAlbums(){
             let response = await a.json()
             //console.log(response)
             cardContainer = document.querySelector(".cardContainer");
+            console.log(album)
             cardContainer.innerHTML = cardContainer.innerHTML +
             `<div data-folder="${album}" class="card">
                 <div class="play">
@@ -120,8 +122,8 @@ async function displayAlbums(){
                             d="M18.8906 12.846C18.5371 14.189 16.8667 15.138 13.5257 17.0361C10.296 18.8709 8.6812 19.7884 7.37983 19.4196C6.8418 19.2671 6.35159 18.9776 5.95624 18.5787C5 17.6139 5 15.7426 5 12C5 8.2574 5 6.3861 5.95624 5.42132C6.35159 5.02245 6.8418 4.73288 7.37983 4.58042C8.6812 4.21165 10.296 5.12907 13.5257 6.96393C16.8667 8.86197 18.5371 9.811 18.8906 11.154C19.0365 11.7084 19.0365 12.2916 18.8906 12.846Z" />
                     </svg>
                 </div>
-
-                <img src="${folder}/cover.jpg" alt="" />
+                
+                <img src="/songs/${album}/cover.jpg" alt="" />
                 <h2>${response.title}</h2>
                 <p>${response.description}</p>
 
